@@ -17,7 +17,11 @@ const HomePage = () => {
     setLoading(true);
 
     try {
-      const userRes = await fetch(`https://api.github.com/users/${username}`);
+      const userRes = await fetch(`https://api.github.com/users/${username}`, {
+        headers: {
+          authorization: `token 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`,
+        },
+      });
 
       if (!userRes.ok) {
         throw new Error(`HTTP error! status: ${userRes.status}`);
