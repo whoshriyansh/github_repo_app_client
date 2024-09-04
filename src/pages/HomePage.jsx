@@ -17,26 +17,11 @@ const HomePage = () => {
     setLoading(true);
 
     try {
-      const userRes = await fetch(`https://api.github.com/users/${username}`, {
-        headers: {
-          authorization: `token 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`,
-        },
-      });
-
-      if (!userRes.ok) {
-        throw new Error(`HTTP error! status: ${userRes.status}`);
-      }
-
-      const userProfile = await userRes.json();
+      const res = await fetch(
+        `http://localhost:4000/api/users/profile/${username}`
+      );
+      const { repos, userProfile } = await res.json();
       setUserProfile(userProfile);
-
-      const repoRes = await fetch(userProfile.repos_url);
-
-      if (!repoRes.ok) {
-        throw new Error(`HTTP error! status: ${repoRes.status}`);
-      }
-
-      const repos = await repoRes.json();
       setRepos(repos);
 
       return { userProfile, repos };
@@ -80,7 +65,10 @@ const HomePage = () => {
   return (
     <div className="m-4">
       <Search onSearch={onSearch} />
-      {repos.length > 0 && <SortRepos onSort={onSort} sortType={sortType} />}
+      {!loading && repos && repos.length > 0 && (
+        <SortRepos onSort={onSort} sortType={sortType} />
+      )}
+
       <div className="flex gap-4 flex-col lg:flex-row justify-center items-start">
         {userProfile && !loading && <ProfileInfo userProfile={userProfile} />}
 

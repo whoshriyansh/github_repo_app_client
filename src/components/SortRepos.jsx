@@ -1,5 +1,3 @@
-import React from "react";
-
 const SortRepos = ({ onSort, sortType }) => {
   const BUTTONS = [
     { type: "recent", text: "Most Recent" },
