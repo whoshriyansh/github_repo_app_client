@@ -13,17 +13,30 @@ const ExplorePage = () => {
     setRepos([]);
     try {
       const res = await fetch(
-        `https://api.github.com/search/repositories?q=language:${language}&sort=stars&order=desc&per_page=10`,
+        `http://localhost:4000/api/explore/repos/${language}`,
         {
-          headers: {
-            authorization: `token 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`,
-          },
+          credentials: "include",
         }
       );
-      const repos = await res.json();
-      setRepos(repos.items);
 
-      setSelectedLanguage(language);
+      if (res.redirected) {
+        window.location.href = res.url;
+        return;
+      }
+
+      const contentType = res.headers.get("content-type");
+      if (!contentType || !contentType.includes("application/json")) {
+        throw new Error("Received non-JSON response from server");
+      }
+
+      const data = await res.json();
+
+      if (res.ok) {
+        setRepos(data.repos);
+        setSelectedLanguage(language);
+      } else {
+        throw new Error(data.error || "Failed to fetch repositories");
+      }
     } catch (error) {
       toast.error(error.message);
     } finally {
