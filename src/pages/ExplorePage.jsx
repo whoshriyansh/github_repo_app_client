@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import toast from "react-hot-toast";
 import Spinner from "../components/Spinner";
 import Repos from "../components/Repos";
+import { API_URL } from "../config";
 
 const ExplorePage = () => {
   const [loading, setLoading] = useState(false);
@@ -12,12 +13,9 @@ const ExplorePage = () => {
     setLoading(true);
     setRepos([]);
     try {
-      const res = await fetch(
-        `http://localhost:4000/api/explore/repos/${language}`,
-        {
-          credentials: "include",
-        }
-      );
+      const res = await fetch(`${API_URL}/api/explore/repos/${language}`, {
+        credentials: "include",
+      });
 
       if (res.redirected) {
         window.location.href = res.url;

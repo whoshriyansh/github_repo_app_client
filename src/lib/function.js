@@ -1,3 +1,5 @@
+import { API_URL } from "../config";
+
 export const handleLoginWithGithub = () => {
-  window.open("http://localhost:4000/api/auth/github", "_self");
+  window.open(`${API_URL}/api/auth/github`, "_self");
 };

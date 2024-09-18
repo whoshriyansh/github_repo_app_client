@@ -1,17 +1,17 @@
 import { MdLogout } from "react-icons/md";
 import { useAuthContext } from "../context/AuthContext";
 import { toast } from "react-hot-toast";
+import { API_URL } from "../config";
 
 const Logout = () => {
   const { authUser, setAuthUser } = useAuthContext();
 
   const handleLogout = async () => {
     try {
-      const res = await fetch("http://localhost:4000/api/auth/logout", {
+      const res = await fetch(`${API_URL}/api/auth/logout`, {
         credentials: "include",
       });
       const data = await res.json();
-      console.log(data);
       setAuthUser(null);
     } catch (error) {
       toast.error(error.message);

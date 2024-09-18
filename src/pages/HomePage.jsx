@@ -5,6 +5,7 @@ import Repos from "../components/Repos";
 import Spinner from "../components/Spinner";
 import SortRepos from "../components/SortRepos";
 import toast from "react-hot-toast";
+import { API_URL } from "../config";
 
 const HomePage = () => {
   const [userProfile, setUserProfile] = useState(null);
@@ -17,9 +18,7 @@ const HomePage = () => {
     setLoading(true);
 
     try {
-      const res = await fetch(
-        `http://localhost:4000/api/users/profile/${username}`
-      );
+      const res = await fetch(`${API_URL}/api/users/profile/${username}`);
       const { repos, userProfile } = await res.json();
       setUserProfile(userProfile);
       setRepos(repos);

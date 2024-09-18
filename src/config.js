@@ -1,4 +1,5 @@
-export const API_URL =
-  process.env.NODE_ENV === "production"
-    ? "http://13.232.205.12:4000"
-    : "http://localhost:4000";
+const isProduction = import.meta.env.MODE === "production";
+
+export const API_URL = isProduction
+  ? "http://3.109.2.38:4000"
+  : "http://localhost:4000";
